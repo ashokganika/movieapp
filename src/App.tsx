@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Movie from './components/Movie'
+import Search from './components/Search'
 import { MOVIES, MovieType } from './constants/movies'
 
 import './App.scss'
 
 function App() {
   const [movies, setMovies] = useState<MovieType[]>([])
+  const [searchMovie, setSearchMovie] = useState<MovieType[]>([])
 
   useEffect(() => {
     const getMovies = async (): Promise<void> => {
@@ -20,6 +22,7 @@ function App() {
 
         // const movies = await response.json()
         setMovies(MOVIES)
+        setSearchMovie(MOVIES)
       } catch (error) {
         console.log('error fetcing movies')
       }
@@ -28,10 +31,28 @@ function App() {
     getMovies()
   }, [])
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = e.target
+
+    if (!value) {
+      setSearchMovie(() => movies)
+      return
+    }
+
+    setSearchMovie(() =>
+      movies.filter((movie: MovieType) =>
+        movie.title.toLowerCase().includes(value.toLocaleLowerCase()),
+      ),
+    )
+  }
+
   return (
     <div className='app'>
       <div className='container'>
-        {movies.map((x) => (
+        <div className='search'>
+          <Search name='search' placeholder='Search Movie...' handleSearch={handleSearch} />
+        </div>
+        {searchMovie.map((x) => (
           <Movie {...x} />
         ))}
       </div>

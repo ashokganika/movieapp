@@ -9,4 +9,22 @@
     gap: 20px;
     align-items: center;
   }
+
+  .search {
+    input[type='search'] {
+      padding: 10px;
+      border-radius: 12px;
+      outline: none !important;
+      font-size: 14px;
+      border: none;
+      width: 15rem;
+
+      &:focus {
+        border: 1.5px solid rgba(111, 179, 210, 0.808);
+        border-radius: 12px;
+        outline: none !important;
+        width: 20rem;
+      }
+    }
+  }
 }
