@@ -1,22 +1,39 @@
-import React from 'react'
-import RSI from './assets/images/rsi.png'
+import React, { useEffect, useState } from 'react'
+import Movie from './components/Movie'
+import { MOVIES, MovieType } from './constants/movies'
 
-import './index.scss'
+import './App.scss'
 
 function App() {
+  const [movies, setMovies] = useState<MovieType[]>([])
+
+  useEffect(() => {
+    const getMovies = async (): Promise<void> => {
+      try {
+        // const response = await fetch('https://www.omdbapi.com/?t=&apikey=6dd2d144')
+        // const response = await fetch('https://imdb-top-100-movies.p.rapidapi.com/', {
+        //   headers: {
+        //     'X-RapidAPI-Key': 'dc561dc689mshbc86d7867b40d40p1ca171jsn06b732fd7eb3',
+        //     'X-RapidAPI-Host': 'imdb-top-100-movies.p.rapidapi.com',
+        //   },
+        // })
+
+        // const movies = await response.json()
+        setMovies(MOVIES)
+      } catch (error) {
+        console.log('error fetcing movies')
+      }
+    }
+
+    getMovies()
+  }, [])
+
   return (
-    <div>
-      App my custom app here!11
-      <div>
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
-        <img style={{ height: 50, width: 50 }} src={RSI} alt='' />
+    <div className='app'>
+      <div className='container'>
+        {movies.map((x) => (
+          <Movie {...x} />
+        ))}
       </div>
     </div>
   )
